@@ -53,6 +53,8 @@ class Photo():
                 if len(img) > expected_length:
                     img = img[:expected_length]
                 img = img.reshape(heif_file.size[1],heif_file.size[0],3)
+            elif ext in ("gif", ):
+                raise Exception
             else:
                 img = cv2.imdecode(img_data,cv2.IMREAD_UNCHANGED)
             if type(img) == np.ndarray:
