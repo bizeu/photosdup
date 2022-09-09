@@ -31,10 +31,9 @@ YDIMS = [10, 50]  # [ Default: [10, 50]
 
 # TODO: CDs
 # TODO: Bad Dates grupo and private in iPhotos
-# TODO: Meter todas de Bizeu para que no haya de baja calidad que son duplicados
 # TODO: Attachments
-# TODO: La G de la Sony y la Nikon quitar el que no es si el nombre es el mismo sin G
 # TODO: rm duplicates correo cuando acabe
+
 
 def trace():
     install(show_locals=True)
