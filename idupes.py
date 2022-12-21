@@ -17,7 +17,7 @@ TEST = "~/Pictures/test.photoslibrary"
 
 BATCH = 3000  # Default: 1000
 PREFIX = "photosdup"
-RADIUSES = [400, 1000]  # Default: [400, 1000]
+RADIUSES = [200, 1000]  # Default: [200, 1000]
 THUMBS = True
 XDIMS = [10, 50]  # [ Default: [10, 50]
 YDIMS = [10, 50]  # [ Default: [10, 50]
@@ -41,7 +41,7 @@ def trace():
 
 if __name__ == "__main__":
 
-    directory = str(Path(DIRECTORY if DIR else TEST).expanduser())
+    directory = str(Path(DIRECTORY if DIR else LIBRARY).expanduser())
 
     freeze_support()
     trace()
