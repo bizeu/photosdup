@@ -22,7 +22,7 @@ setup(
           'scipy',
           'numpy',
           'opencv-python',
-          'photoscript',
+          'photoscript==0.1.5',
           'scikit-image',
           'PySimpleGUI',
           'tqdm',

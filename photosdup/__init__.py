@@ -36,7 +36,7 @@ class Photo():
         return self.uuid == other.uuid
 
     def __repr__(self):
-        return "P(%d,%s)" % (self.size, self.uuid)
+        return "P(%d,%s,%s)" % (self.size, self.uuid, self.original_path)
 
     def __hash__(self):
         return hash(self.uuid)
@@ -63,6 +63,8 @@ class Photo():
                 if len(img.shape) == 2:
                     img = skimage.color.gray2rgb(img)
                 self.representation = np.ndarray.flatten(img.astype("float"))
+            else:
+                print(f"- not np.ndarray: {self.path}")
         except Exception as e:
             print("WARNING: could not load and resize",self.path,e,dir(e),file=sys.stdout,flush=True)
             self.representation = None
@@ -127,7 +129,7 @@ class DuplicateFinder():
         else:
             images_dirs = ["originals"]
         images_dir = self._join(images_dirs)
-        filenames = (os.path.join(rootname,filename) for rootname, _, filenames in os.walk(images_dir) for filename in filenames)
+        filenames = (os.path.join(rootname,filename) for rootname, _, filenames in os.walk(images_dir) for filename in filenames if ".DS_Store" not in filename)
         if thumbs:
             def thumbs_remover(s):
                 return s.split("_")[0]
@@ -174,7 +176,11 @@ class DuplicateFinder():
                 else:
                     with multiprocessing.Pool(self.cores if self.cores > 0 else None) as p:
                         rep_photos.extend(p.starmap(DuplicateFinder._represent,zip(ps,itertools.repeat(dimension))))
-        return [photo for photo in rep_photos if photo.representation is not None]
+        for photo in rep_photos:
+            if not hasattr(photo, "representation") or photo.representation is None:
+                print(f"- No representation: {photo.original_path}")
+                os.system(f"open {photo.original_path}")
+        return [photo for photo in rep_photos if hasattr(photo, "representation") and photo.representation is not None]
 
     def find(self, rep_photos, radius=1000):
         representations = [photo.representation for photo in rep_photos]
